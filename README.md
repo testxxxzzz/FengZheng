@@ -3,7 +3,8 @@
 
 
 ```
-FengZheng是一款用于权限维持的后门工具。其灵感来源于WannaCry和Cobalt Strike。通过python编写，在尽量仅使用标准库的情况下实现功能。由于不存在敏感行为及代码，可以规避一些安全检测。本项目属于python新手练习作品，多有缺憾之处请各位谅解，今后会慢慢完善。
+FengZheng是一款用于权限维持的后门工具。其灵感来源于WannaCry和Cobalt Strike。通过python编写，在尽量仅使用标准库的情况下实现功能。
+由于不存在敏感行为及代码，可以规避一些安全检测。本项目属于python新手练习作品，多有缺憾之处请各位谅解，今后会慢慢完善。
 ```
 
 # 使用方法
@@ -18,7 +19,8 @@ FengZheng是一款用于权限维持的后门工具。其灵感来源于WannaCry
 
 ```
 整体架构类似于Cobalt Strike，server<-->teamserver<-->client
-server则只是一个装载器，通常用于装载反弹shell命令。常规情况下心跳时间请求teamserver特定端口的web服务，根据web目录判断是否激活以及销毁自身。
+server则只是一个装载器，通常用于装载反弹shell命令。
+常规情况下心跳时间请求teamserver特定端口的web服务，根据web目录判断是否激活以及销毁自身。
 ```
 
 ###### 技术构成
