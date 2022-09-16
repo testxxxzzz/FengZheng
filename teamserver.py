@@ -66,7 +66,7 @@ def alive(flag):
                 if flag not in line:
                     g.write(line)
     shutil.move('log.bak', 'log')
-    os.rename('./server/'+flag, './server/'+flag+"alive\n")
+    os.rename('./server/'+flag, './server/'+flag+"alive")
     print("已激活：", flag)
 
 
@@ -84,9 +84,9 @@ def delete(flag):
         shutil.move("log.bak", "log")
         print("已删除log中的记录：", flag+"\n")
 
-    elif os.path.exists('./server/'+flag+"alive\n"):
+    elif os.path.exists('./server/'+flag+"alive"):
         # 删除server文件夹下的flag文件
-        os.remove('./server/'+flag+"alive\n")
+        os.remove('./server/'+flag+"alive")
         print("已删除：", flag+"\n")
     else:
         print("没有存在的server，可能输入了异常字符！\n")
