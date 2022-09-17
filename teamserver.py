@@ -60,14 +60,25 @@ def pwd():
 
 
 def alive(flag):
-    with open('log', 'r') as f:
-        with open('log.bak', 'w') as g:
-            for line in f.readlines():
-                if flag not in line:
-                    g.write(line)
-    shutil.move('log.bak', 'log')
-    os.rename('./server/'+flag, './server/'+flag+"alive")
-    print("已激活：", flag)
+    # 检测log中是否存在flag
+    with open("log", 'r') as f:
+        for line in f.readlines():
+            if flag in line:
+                # 创建flagalive文件
+                    with open('log', 'r') as f:
+                        with open('log.bak', 'w') as g:
+                            for line in f.readlines():
+                                if flag not in line:
+                                    g.write(line)
+                    shutil.move('log.bak', 'log')
+                    os.rename('./server/'+flag, './server/'+flag+"alive")
+                    print("已激活：", flag)
+            else:
+                return 0
+
+
+
+
 
 
 def delete(flag):
@@ -144,7 +155,8 @@ def command(conn):
         elif msg == "alive":
             msg2 = conn.recv(1024).decode()
 
-            alive(msg2)
+            ifalive=alive(msg2)
+            conn.send(bytes(str(ifalive).encode()))
             msg = ""
             continue
 

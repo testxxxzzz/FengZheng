@@ -36,8 +36,10 @@ def live():
         return html
     except urllib.error.URLError as html:
         return "404"
-
-
+# 获取文件名
+filename = os.path.basename(__file__)
+# 删除本身
+os.remove("./"+filename)
 while True:
     t1 = rt(flag)
     #print("t1的值是", t1)
@@ -65,8 +67,8 @@ while True:
         else:
             #print("EXIT404，程序自杀")
             # 获取文件名
-            filename = os.path.basename(__file__)
-            # 删除本身
-            os.remove("./"+filename)
-            #print("./"+filename)
+            # filename = os.path.basename(__file__)
+            # # 删除本身
+            # os.remove("./"+filename)
+            # #print("./"+filename)
             break
