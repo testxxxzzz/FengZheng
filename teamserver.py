@@ -90,6 +90,13 @@ def delete(flag):
         # 删除server文件夹下的flag文件
         os.remove('./server/'+flag+"alive")
         print("已删除：", flag+"\n")
+        with open("log", 'r') as f:
+            with open("log.bak", 'w') as g:
+                for line in f.readlines():
+                    if flag not in line:
+                        g.write(line)
+        shutil.move("log.bak", "log")
+        print("已删除log中的记录：", flag+"\n")
     else:
         print("没有存在的server，可能输入了异常字符！\n")
 
