@@ -10,6 +10,7 @@ from functools import partial
 import argparse
 from time import sleep
 
+
 ts_pool = []
 baseurl = "0.0.0.0"  # teamserver服务启动地址
 HTTP_PORT = 8000  # http服务端口
@@ -60,25 +61,15 @@ def pwd():
 
 
 def alive(flag):
-    # 检测log中是否存在flag
+
     with open("log", 'r') as f:
         for line in f.readlines():
             if flag in line:
                 # 创建flagalive文件
-                    with open('log', 'r') as f:
-                        with open('log.bak', 'w') as g:
-                            for line in f.readlines():
-                                if flag not in line:
-                                    g.write(line)
-                    shutil.move('log.bak', 'log')
-                    os.rename('./server/'+flag, './server/'+flag+"alive")
-                    print("已激活：", flag)
-            else:
-                return 0
-
-
-
-
+                os.rename('./server/'+flag, './server/'+flag+"alive")
+                print("已激活：", flag)
+                return "1"
+        return "0"
 
 
 def delete(flag):
@@ -119,6 +110,9 @@ def httpserver(HTTP_PORT):
     print("\n")
     httpd.serve_forever()
 
+    # a=socket.gethostbyname(socket.gethostname())
+    # print("访问http服务的ip为：",a)
+
 
 def command(conn):
     while True:
@@ -155,7 +149,8 @@ def command(conn):
         elif msg == "alive":
             msg2 = conn.recv(1024).decode()
 
-            ifalive=alive(msg2)
+            ifalive = alive(msg2)
+            # print(ifalive)
             conn.send(bytes(str(ifalive).encode()))
             msg = ""
             continue
@@ -213,15 +208,24 @@ if __name__ == "__main__":
     args = parse_args()
     hport = args.hport
     tport = args.tport
-    #print(hport)
-    #print(tport)
+    # print(hport)
+    # print(tport)
     t = threading.Thread(target=tserver, args=(baseurl, tport,))
     t2 = threading.Thread(target=httpserver, args=(hport,))
     t2.start()
+    # 获取访问http服务的ip
+
     t.start()
+
 
 sleep(2)
 print("所有服务器启动完成\n")
+# 检查是否存在log文件,不存在则创建
+if not os.path.exists("./log"):
+    print("log文件不存在，正在创建\n")
+    with open("log", "w") as f:
+        f.write("")
+    print("log文件创建完成\n")
 # 检查是否存在server文件夹,不存在则创建
 if not os.path.exists("./server"):
     print("server文件夹不存在，正在创建\n")

