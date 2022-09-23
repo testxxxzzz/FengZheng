@@ -90,7 +90,7 @@ def cserver():
                 #payload = input("请输入payload:")
                 payload=base64.b64encode(input("请输入payload:") .encode('utf-8')).decode('utf-8')
                 #print(payload)
-                baseurl = input("请输入teamserver的http地址，请注意端口:")
+                baseurl = input("请输入teamserver的http地址，请注意端口!如：127.0.0.1:8000 :\n")
                 version = input("请输入python版本，2或3:")
                 create(flag, time, payload, baseurl,version)
 
